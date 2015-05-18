@@ -2304,6 +2304,8 @@ int ntfs_get_posix_acl(struct SECURITY_CONTEXT *scx, ntfs_inode *ni,
 static int ntfs_get_perm(struct SECURITY_CONTEXT *scx,
 		ntfs_inode *ni,	mode_t request)
 {
+/*lenovo-sw jixj 2015.3.31 remove begin*/
+#if 0
 	const SECURITY_DESCRIPTOR_RELATIVE *phead;
 	const struct CACHED_PERMISSIONS *cached;
 	char *securattr;
@@ -2403,6 +2405,10 @@ static int ntfs_get_perm(struct SECURITY_CONTEXT *scx,
 		}
 	}
 	return (perm);
+#else
+    return 1;
+#endif
+/*lenovo-sw jixj 2015.3.31 remove end*/
 }
 
 #endif /* POSIXACLS */
@@ -3437,6 +3443,8 @@ int ntfs_allowed_access(struct SECURITY_CONTEXT *scx,
 		ntfs_inode *ni,
 		int accesstype) /* access type required (S_Ixxx values) */
 {
+/*lenovo-sw jixj 2015.3.31 remove begin*/
+#if 0
 	int perm;
 	int res;
 	int allow;
@@ -3505,6 +3513,10 @@ int ntfs_allowed_access(struct SECURITY_CONTEXT *scx,
 			allow = 0;
 	}
 	return (allow);
+#else
+    return 1;
+#endif
+/*lenovo-sw jixj 2015.3.31 remove end*/
 }
 
 /*
@@ -3517,6 +3529,8 @@ int ntfs_allowed_access(struct SECURITY_CONTEXT *scx,
 int ntfs_allowed_create(struct SECURITY_CONTEXT *scx,
 		ntfs_inode *dir_ni, gid_t *pgid, mode_t *pdsetgid)
 {
+/*lenovo-sw jixj 2015.3.31 remove begin*/
+#if 0
 	int perm;
 	int res;
 	int allow;
@@ -3555,6 +3569,10 @@ int ntfs_allowed_create(struct SECURITY_CONTEXT *scx,
 		}
 	}
 	return (allow);
+#else
+    return 1;
+#endif
+/*lenovo-sw jixj 2015.3.31 remove end*/
 }
 
 #if 0 /* not needed any more */

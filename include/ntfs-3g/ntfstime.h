@@ -39,12 +39,16 @@
 /*
  * assume "struct timespec" is not defined if st_mtime is not defined
  */
+/*lenovo-sw jixj 2015.3.31 remove begin for build error*/
+#if 0
 #if !defined(st_mtime) & !defined(__timespec_defined)
 struct timespec {
 	time_t tv_sec;
 	long tv_nsec;
 } ;
 #endif
+#endif
+/*lenovo-sw jixj 2015.3.31 remove end*/
 
 /*
  * There are four times more conversions of internal representation

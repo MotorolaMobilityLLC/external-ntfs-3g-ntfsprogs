@@ -212,7 +212,7 @@ static const char *unpriv_fuseblk_msg =
 "FUSE support and make it setuid root. Please see more information at\n"
 "http://tuxera.com/community/ntfs-3g-faq/#unprivileged\n";
 #endif	
-
+#define linux 1 //lenovo-sw jixj 2015.3.31 add
 
 /**
  * ntfs_fuse_is_named_data_stream - check path to be to named data stream

@@ -431,3 +431,6 @@
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */
+
+/*lenovo-sw jixj 2015.6.15 add for open it, print log*/
+//#define DEBUG 1

@@ -3458,7 +3458,14 @@ static int ntfs_fuse_init(void)
 #else			
 		.streams = NF_STREAMS_INTERFACE_NONE,
 #endif			
+		/*lenovo-sw jixj 2015.7.9 modified begin for improve write speed*/
+		#if 0
 		.atime   = ATIME_RELATIVE,
+		#else
+		.atime   = ATIME_DISABLED,
+		.big_writes = TRUE,
+		#endif
+		/*lenovo-sw jixj 2015.7.9 modified end*/
 		.silent  = TRUE,
 		.recover = TRUE
 	};

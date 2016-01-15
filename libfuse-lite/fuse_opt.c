@@ -264,7 +264,6 @@ static int process_real_option_group(struct fuse_opt_context *ctx, char *opts)
 
     do {
         int res;
-#ifdef __SOLARIS__
                 /*
                  * On Solaris, the device name contains commas, so the
                  * option "fsname" has to be the last one and its commas
@@ -272,15 +271,21 @@ static int process_real_option_group(struct fuse_opt_context *ctx, char *opts)
                  * This had to be hardcoded because the option "fsname"
                  * may be found though not present in option list.
                  */
-        if (!strncmp(opts,"fsname=",7))
-            sep = (char*)NULL;
-        else
-#endif /* __SOLARIS__ */
-            {
+ /*lenovo-sw liuyc7 2016.1.12 modified begin*/
+        if (!strncmp(opts,"fsname=",7)){
+            sep = strchr(opts, ',');
+            if ( sep && ((*(sep+1))<='9') && (*(sep+1)>='0') ){
+                char *tmp=sep+1;
+                sep = strchr(tmp, ',');
+                if (sep)
+                   *sep = '\0';
+            }
+        }else{
             sep = strchr(opts, ',');
             if (sep)
-                *sep = '\0';
+               *sep = '\0';
         }
+/*lenovo-sw liuyc7 2016.1.12 end*/
         res = process_gopt(ctx, opts, 1);
         if (res == -1)
             return -1;

@@ -347,7 +347,9 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
     char *source = NULL;
     char *type = NULL;
     int blkdev = 0;
+    int i=0;
 
+    fprintf(stderr,"ntfs do_mount opts=%s\n",opts);
     optbuf = (char *) malloc(strlen(opts) + 128);
     if (!optbuf) {
         fprintf(stderr, "%s: failed to allocate memory\n", progname);
@@ -356,11 +358,19 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
 
     for (s = opts, d = optbuf; *s;) {
         unsigned len;
+        int flag=0;
         const char *fsname_str = "fsname=";
         for (len = 0; s[len] && s[len] != ','; len++);
         if (begins_with(s, fsname_str)) {
-            if (!get_string_opt(s, len, fsname_str, &fsname))
-                goto err;
+        /*lenovo-liuyc7 2016.1.12 modified begin*/
+        for (i=1; s[len+i] && (s[len+i]>='0') && (s[len+i]<='9') && s[len+i] != ','; i++){
+            flag=1;
+        }
+        if (flag == 1)
+            len=len+i;
+        /*lenovo-liuyc7 modified end*/
+        if (!get_string_opt(s, len, fsname_str, &fsname))
+            goto err;
         } else if (opt_eq(s, len, "blkdev")) {
             blkdev = 1;
         } else if (!begins_with(s, "fd=") &&
@@ -424,7 +434,7 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
 
     if (restore_privs())
 	goto err;
-    
+    fprintf(stderr," source=%s \t mnt=%s \t type=%s\t flags=%d\t optbuf=%s\n",source, mnt, type, flags, optbuf);
     res = mount(source, mnt, type, flags, optbuf);
     if (res == -1 && errno == EINVAL) {
         /* It could be an old version not supporting group_id */
